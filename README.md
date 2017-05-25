@@ -42,5 +42,5 @@ On Ubuntu, if you find that the ElasticSearch instance is complaining about "max
 Once the containers have started, you will have the following services available
 
 - ElasticSearch v.5.4.0 on port 9200
-- MySql on port 3600
-- Neo4j on ports [7473, 7687]
+- MySql v.8.0.1on port 3600
+- Neo4j v.3.2.0 on ports [7473, 7687]
