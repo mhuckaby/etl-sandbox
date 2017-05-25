@@ -1,0 +1,51 @@
+version: "3"
+services:
+  elasticsearch:
+      image: docker.elastic.co/elasticsearch/elasticsearch:5.4.0
+      environment:
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+      ports:
+        - "9200:9200"
+      volumes:
+          - ./data:/usr/share/elasticsearch/data
+          - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      networks:
+        - webnet
+      deploy:
+        placement:
+          constraints: [node.role == manager]
+  neo4j:
+      image: neo4j:3.2.0
+      ports:
+        - "7473:7473"
+        - "7687:7687"
+      volumes:
+        - ./data:/data
+      deploy:
+        placement:
+          constraints: [node.role == manager]
+      networks:
+        - webnet
+  mysql:
+      image: mysql:8.0.1
+      ports:
+        - "3306:3306"
+      volumes:
+        - ./data:/data
+      deploy:
+        placement:
+          constraints: [node.role == manager]
+      networks:
+        - webnet
+      environment:
+         MYSQL_ROOT_PASSWORD: root_etls
+         MYSQL_DATABASE: etls
+         MYSQL_USER: etls_user
+         MYSQL_PASSWORD: password
+networks:
+  webnet:
+
