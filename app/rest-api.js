@@ -26,4 +26,4 @@ app.get('/data/init', function(req, res, next) {
 
 });
 
-app.listen(3001);
+app.listen(3000);
