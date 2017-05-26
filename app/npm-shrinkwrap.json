@@ -1,0 +1,51 @@
+{
+  "name": "etl-sandbox",
+  "version": "1.0.0",
+  "dependencies": {
+    "bignumber.js": {
+      "version": "3.1.2",
+      "from": "bignumber.js@3.1.2",
+      "resolved": "https://registry.npmjs.org/bignumber.js/-/bignumber.js-3.1.2.tgz"
+    },
+    "core-util-is": {
+      "version": "1.0.2",
+      "from": "core-util-is@>=1.0.0 <1.1.0",
+      "resolved": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz"
+    },
+    "inherits": {
+      "version": "2.0.3",
+      "from": "inherits@>=2.0.1 <2.1.0",
+      "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.3.tgz"
+    },
+    "isarray": {
+      "version": "0.0.1",
+      "from": "isarray@0.0.1",
+      "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
+    },
+    "mysql": {
+      "version": "2.13.0",
+      "from": "mysql@latest",
+      "resolved": "https://registry.npmjs.org/mysql/-/mysql-2.13.0.tgz"
+    },
+    "q": {
+      "version": "1.5.0",
+      "from": "q@latest",
+      "resolved": "https://registry.npmjs.org/q/-/q-1.5.0.tgz"
+    },
+    "readable-stream": {
+      "version": "1.1.14",
+      "from": "readable-stream@1.1.14",
+      "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.14.tgz"
+    },
+    "sqlstring": {
+      "version": "2.2.0",
+      "from": "sqlstring@2.2.0",
+      "resolved": "https://registry.npmjs.org/sqlstring/-/sqlstring-2.2.0.tgz"
+    },
+    "string_decoder": {
+      "version": "0.10.31",
+      "from": "string_decoder@>=0.10.0 <0.11.0",
+      "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz"
+    }
+  }
+}
