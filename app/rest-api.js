@@ -1,6 +1,6 @@
-var populateData = require('./populate-data');
 var express = require('express');
 var app = express();
+var populateDataService = require('./populate-data-svc');
 
 
 app.get('/', function (req, res) {
@@ -8,17 +8,17 @@ app.get('/', function (req, res) {
 });
 
 app.get('/data/init', function(req, res, next) {
-    res.header("Content-Type", "application/json");
+    res.header('Content-Type', 'application/json');
 
-    if(populateData.isLocked()) {
-        res.status(429).send({"message":"IN_PROGRESS"});
-    }else {
-        populateData.Main().then(function(value) {
-            res.send(value);
-        },function(value) {
-            res.status(500).send(value);
-        });
-    };
+    populateDataService.initializeData().then(function(resolve) {
+        res.send(resolve.message());
+    },function(reject) {
+        if(reject.inProgress()) {
+            res.status(429).send(reject.message());
+        }else {
+            res.status(500).send(reject.message());
+        }
+    });
 
 });
 
