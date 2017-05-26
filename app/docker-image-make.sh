@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker build -t mhuckaby/etls:0.0.3 .
+docker build -t mhuckaby/etls .
