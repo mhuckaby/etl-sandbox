@@ -47,14 +47,16 @@ services:
          MYSQL_USER: etls_user
          MYSQL_PASSWORD: password
   etls:
-    image: mhuckaby/etls:0.0.1
-    depends_on:
-      - mysql
-    networks:
-      - webnet
-    deploy:
-      placement:
-        constraints: [node.role == manager]
+      image: mhuckaby/etls:0.0.2
+      ports:
+        - "3000:3000"
+      depends_on:
+        - mysql
+      networks:
+        - webnet
+      deploy:
+        placement:
+          constraints: [node.role == manager]
 networks:
   webnet:
 

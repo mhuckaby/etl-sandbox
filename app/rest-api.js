@@ -1,10 +1,14 @@
+var path = require('path');
 var express = require('express');
 var app = express();
 var populateDataService = require('./populate-data-svc');
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
 
 app.get('/', function (req, res) {
-    res.send('ELTS')
+    res.render('index', { title: 'ETLS'});
 });
 
 app.get('/data/init', function(req, res, next) {
@@ -22,4 +26,4 @@ app.get('/data/init', function(req, res, next) {
 
 });
 
-app.listen(3000);
+app.listen(3001);
