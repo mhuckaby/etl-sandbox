@@ -4,7 +4,7 @@
   "description": "This project is a sandbox to demonstrate ETL between several types of data store.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node populate-data.js"
+    "start": "node rest-api.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/mhuckaby/etl-sandbox#readme",
   "dependencies": {
+    "express": "^4.15.3",
     "mysql": "^2.13.0",
     "q": "^1.5.0"
   }

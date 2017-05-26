@@ -1,11 +1,28 @@
-var TimedRetry = require("./timed-retry").TimedRetry;
-var MySqlDataPopulation = require("./populate-data-mysql");
-
-var waitForMySqlHost = 60 * 4;
+var populateMysql = require('./populate-data-mysql');
+var Q = require('q');
 
 
-TimedRetry(waitForMySqlHost, MySqlDataPopulation.AttemptConnection).then(function(connection) {
-    MySqlDataPopulation.CreateTablesAndData(connection);
-}, function(value) {
-    console.log("Waited  for mySql host for " + waitForMySqlHost + " without success");
-});
+var dataInitLock = false;
+
+exports.isLocked = function() {
+    return dataInitLock;
+};
+
+exports.Main = function() {
+    var deferred = Q.defer();
+
+    if(dataInitLock) {
+        deferred.reject({"message":"IN_PROGRESS"});
+    }else {
+        dataInitLock = true;
+
+        populateMysql.populatePromise().then(function() {
+            deferred.resolve({"message":"OK"});
+        }, function() {
+            deferred.reject({"message":"FAILED"});
+        }).done(function() {
+            dataInitLock = false;
+        });
+    };
+    return deferred.promise;
+};

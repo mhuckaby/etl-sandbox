@@ -1,11 +1,11 @@
-var Q = require("q");
+var Q = require('q');
 
 exports.TimedRetry = function(retryCount, retriedFunction) {
     var deferred = Q.defer();
 
     if(!retriedFunction) {
         console.log("function to retry is undefined");
-        return {};
+        deferred.reject("function to retry is undefined");
     }
 
     var counter = 0;
@@ -14,11 +14,10 @@ exports.TimedRetry = function(retryCount, retriedFunction) {
         counter += 1;
 
         if(counter > retryCount) {
-            console.log("exhausted retries");
-
             clearInterval(intervalId);
 
-            return;
+            console.log("exhausted retries");
+            deferred.reject("exhausted retries");
         }
 
         retriedFunction(function() {

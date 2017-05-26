@@ -1,6 +1,23 @@
 var mysql = require('mysql');
+var Q = require('q');
+var TimedRetry = require("./timed-retry").TimedRetry;
 
-exports.AttemptConnection = function(clearInterval, deferred) {
+
+exports.populatePromise = function() {
+    var deferred = Q.defer();
+    var waitForMySqlHost = 60 * 4;
+
+    TimedRetry(waitForMySqlHost, AttemptConnection).then(function (connection) {
+        CreateTablesAndData(connection, deferred);
+    }, function () {
+        console.log("Waited  for mySql host for " + waitForMySqlHost + " without success");
+        deferred.reject("Waited  for mySql host for " + waitForMySqlHost + " without success");
+    });
+
+    return deferred.promise;
+};
+
+var AttemptConnection = function(clearInterval, deferred) {
 
     var connection = mysql.createConnection({
         host     : 'mysql',
@@ -19,15 +36,21 @@ exports.AttemptConnection = function(clearInterval, deferred) {
     });
 };
 
-exports.CreateTablesAndData = function (connection) {
+var CreateTablesAndData = function (connection, deferred) {
 
     var execute = function(connection, statement) {
+        var deferredExecution = Q.defer();
 
-        connection.query(statement, function (error, results, fields) {
-            if (error) throw error;
+        connection.query(statement, function (error) {
+            if (error) {
+                deferred.reject("mysql data init error: " + error);
+                throw error;
+            }
             console.log('executed: ' + statement);
+            deferredExecution.resolve('executed: ' + statement);
         });
 
+        return deferredExecution.promise;
     };
 
     var ddl = [
@@ -65,10 +88,17 @@ exports.CreateTablesAndData = function (connection) {
         "INSERT INTO etls_activity (source_user, target_user, action) VALUES (7, 4, 'message');",
     ];
 
+    var promises = [];
     for(index in ddl) {
-        console.log(ddl[index]);
-        execute(connection, ddl[index]);
+        promises.push( execute(connection, ddl[index]) );
     };
 
-    connection.end();
+    Q.all(promises).then(function() {
+        deferred.resolve("all statements executed");
+    }, function() {
+        deferred.reject("mysql data population error");
+    }).done(function() {
+        connection.end();
+    });
+
 };
