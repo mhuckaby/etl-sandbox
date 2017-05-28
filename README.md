@@ -25,9 +25,6 @@ Developed and tested using
 `docker stack rm etls`
 
 
-- The Neo4j instance is pre-configured with the default username and passsword `neo4j` `neo4j`. In order to change this, you will need to go to the Neo4j browser at `https://localhost:7473` and change the password.      
-    
-
 ### Troubleshooting
 The ElasticSearch instance may be thrashing up and down a bunch. You can determine the cause by attaching to the container and viewing the process output
 
@@ -45,3 +42,10 @@ Once the containers have started, you will have the following services available
 - MySql v.8.0.1on port 3600
 - Neo4j v.3.2.0 on ports [7473, 7687]
 - ETLS Basic Browser on ports [3000]
+
+## MySql User names and Passwords
+ 
+- MySql root password `root_etls`
+- MySql database `etls`
+- MySql database user `etls_user`
+- MySql database user password `password`
