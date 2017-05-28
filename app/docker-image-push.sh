@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-docker tag mhuckaby/etls mhuckaby/etls
-docker push mhuckaby/etls
+docker tag mhuckaby/etls mhuckaby/etls:0.0.4
+docker push mhuckaby/etls:0.0.4
