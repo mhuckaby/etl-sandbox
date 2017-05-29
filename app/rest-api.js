@@ -8,7 +8,10 @@ app.set('view engine', 'ejs');
 
 
 app.get('/', function (req, res) {
-    res.render('index', { title: 'ETLS'});
+    res.render('index', {
+        title: 'ETLS',
+        host_rewrite: req.query.host_rewrite ? req.query.host_rewrite : 'localhost'
+    });
 });
 
 app.get('/data/init', function(req, res, next) {

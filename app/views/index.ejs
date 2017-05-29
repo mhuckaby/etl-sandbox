@@ -5,11 +5,12 @@
     </head>
 <body>
     <h1><%= title %></h1>
+    <h3>?host_rewrite=<%= host_rewrite %></h3>
     <div>
         <a href="/data/init">data-init</a>
     </div>
     <div>
-        <a href="https://127.0.0.1:7473">neo-4j browser</a>
+        <a href="https://<%= host_rewrite %>:7473">neo-4j browser</a>
     </div>
 </body>
 </html>
