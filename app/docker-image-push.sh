@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-docker tag mhuckaby/etls mhuckaby/etls:0.0.4
-docker push mhuckaby/etls:0.0.4
+docker_build_tag=`cat docker-image.tag`
+echo "docker_build_tag: $docker_build_tag"
+docker tag mhuckaby/etls mhuckaby/etls:$docker_build_tag
+docker push mhuckaby/etls:$docker_build_tag

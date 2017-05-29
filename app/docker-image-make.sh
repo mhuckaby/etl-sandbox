@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-docker build -t mhuckaby/etls:0.0.4 .
+docker_build_tag=`cat docker-image.tag`
+echo "docker_build_tag: $docker_build_tag"
+docker build -t mhuckaby/etls:$docker_build_tag .

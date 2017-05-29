@@ -49,7 +49,7 @@ services:
          MYSQL_USER: etls_user
          MYSQL_PASSWORD: password
   etls:
-      image: mhuckaby/etls:0.0.4
+      image: mhuckaby/etls:0.0.5
       ports:
         - "3000:3000"
       depends_on:
