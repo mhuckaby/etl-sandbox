@@ -40,8 +40,9 @@ INSERT INTO etls_user (uuid, username) VALUES (uuid(), "Mr. Meeseeks");      # 6
 INSERT INTO etls_user (uuid, username) VALUES (uuid(), "Bird Person");       # 7
 
 # Funding Source Data
-INSERT INTO etls_fund_source (id, user, ftype) VALUES (1, 1, 1);
-INSERT INTO etls_fund_source (id, user, ftype) VALUES (2, 7, 1);
+INSERT INTO etls_fund_source (id, user, ftype) VALUES (1, 1, 1); # Ricks account
+INSERT INTO etls_fund_source (id, user, ftype) VALUES (2, 7, 1); # Bird Persons account
+INSERT INTO etls_fund_source (id, user, ftype) VALUES (3, 2, 1); # Mortys account
 
 # Activity Data
 
@@ -64,22 +65,23 @@ INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALU
 INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (7, 4, 1, "ktb");
 
 # Transfer Data
-INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (1, 2, 2, "$5.00");
+INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (1, 2, 2, "$5.00"); # Rick to Morty
 
-INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (1, 3, 2, "$5.00");
-INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (2, 3, 2, "$5.00");
+INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (1, 3, 2, "$5.00"); # Rick to Jerry
+INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (2, 3, 2, "$5.00"); # Morty to Jerry
 
-INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (1, 4, 2, "$5.00");
-INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (3, 4, 2, "$10.00");
+INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (1, 4, 2, "$5.00"); # Rick to Beth
 
-INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (1, 5, 2, "$5.00");
-INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (4, 5, 2, "$15.00");
+INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (1, 5, 2, "$5.00");  # Rick to Summer
+INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (4, 5, 2, "$15.00"); # Beth to Summer
 
-INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (1, 6, 2, "$5.00");
-INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (5, 6, 2, "$20.00");
+INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (1, 6, 2, "$5.00");  # Rick to Mr. M
+INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (5, 6, 2, "$20.00"); # Summer to Mr. M
 
-INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (1, 7, 2, "$5.00");
-INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (6, 7, 2, "$25.00");
+INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (1, 7, 2, "$5.00"); # Rick to BP
+INSERT INTO etls_activity (source_user, target_user, activity_type, detail) VALUES (6, 7, 2, "$25.00"); # Summer to BP
 
 # Withdrawal Data
 INSERT INTO etls_activity (source_user, target_fund_source, activity_type, detail) VALUES (7, 2, 3, "$30.00");
+INSERT INTO etls_activity (source_user, target_fund_source, activity_type, detail) VALUES (2, 3, 3, "$2.50");
+INSERT INTO etls_activity (source_user, target_fund_source, activity_type, detail) VALUES (2, 3, 3, "$2.50");

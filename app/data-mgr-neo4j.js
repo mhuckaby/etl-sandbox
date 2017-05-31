@@ -43,6 +43,28 @@ var writeUserToFundActivity = function(cypher, transaction, resultSet) {
 
 };
 
+var writeUserToUserTransfer = function(cypher, transaction, resultSet) {
+
+    var cypherParams = {
+        source_user_id: resultSet[r].source_user_id,
+        source_user_uuid: resultSet[r].source_user_uuid,
+        source_username: resultSet[r].source_username,
+        target_user_id: resultSet[r].target_user_id,
+        target_user_uuid: resultSet[r].target_user_uuid,
+        target_username: resultSet[r].target_username,
+        activity_id: resultSet[r].activity_id,
+        action: resultSet[r].action,
+        detail: resultSet[r].detail
+    };
+
+    return transaction.run(cypher, cypherParams).then(function(resolve) {
+        logger('cypher statement ran successfully.');
+    }, function(reject) {
+        logger(`cypher statement failed: ${ JSON.stringify(reject) }`);
+    });
+
+};
+
 var handleCypherPromise = function(promise) {
     promise.then(function(resolve) {
         logger('cypher statement ran successfully.');
@@ -53,16 +75,23 @@ var handleCypherPromise = function(promise) {
 
 var writeData = function(session, resultSet) {
     return session.writeTransaction(function(transaction) {
-        var cypherUserToUserActivity = dataFileMgr.readCypherFile('merge-user-and-activity');
-        var cypherUserToFundSourceActivity = dataFileMgr.readCypherFile('merge-user-fund-source');
-        logger(`writing neo4j data with cypher query:\n${cypherUserToUserActivity}`);
+        var cypherUserMessage = dataFileMgr.readCypherFile('merge-user-message');
+        var cypherUserToFundSource = dataFileMgr.readCypherFile('merge-user-fund-source');
+        var cypherUserToUserTransfer = dataFileMgr.readCypherFile('merge-user-to-user-transfer');
+
+
+        logger(`writing neo4j data with cypher query:\n${cypherUserMessage}`);
+        logger(`writing neo4j data with cypher query:\n${cypherUserToFundSource}`);
+        logger(`writing neo4j data with cypher query:\n${cypherUserToUserTransfer}`);
 
         for(r in resultSet) {
 
             if(resultSet[r].fund_source_id) {
-                handleCypherPromise( writeUserToFundActivity(cypherUserToFundSourceActivity, transaction, resultSet) );
-            }else if(resultSet[r].source_user_id && resultSet[r].target_user_id) {
-                handleCypherPromise( writeUserToUserActivity(cypherUserToUserActivity, transaction, resultSet) );
+                handleCypherPromise( writeUserToFundActivity(cypherUserToFundSource, transaction, resultSet) );
+            }else if(resultSet[r].activity_type === 1) {
+                handleCypherPromise( writeUserToUserActivity(cypherUserMessage, transaction, resultSet) );
+            }else if(resultSet[r].activity_type === 2) {
+                handleCypherPromise( writeUserToUserTransfer(cypherUserToUserTransfer, transaction, resultSet) );
             }
 
         };
@@ -86,7 +115,7 @@ var populate = function() {
         logger(`mysql query complete`);
 
         deleteData(session).then(function() {
-            logger('delete data done');
+            logger('delete existing neo4j data done');
 
             writeData(session, resultSet).then(function() {
                 driver.close();
