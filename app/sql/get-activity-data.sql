@@ -3,6 +3,7 @@ SELECT
     etls_activity.source_user as 'source_user_id',
     etls_activity.target_user as 'target_user_id',
     etls_activity.action 			as 'action',
+    etls_activity.detail 			as 'detail',
 	  eu_source.username 		    as 'source_username',
     eu_source.uuid 				    as 'source_user_uuid',
     eu_target.username 		    as 'target_username',

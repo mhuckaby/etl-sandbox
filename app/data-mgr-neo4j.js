@@ -20,7 +20,8 @@ var writeData = function(session, resultSet) {
                 target_user_uuid: resultSet[r].target_user_uuid,
                 target_username: resultSet[r].target_username,
                 activity_id: resultSet[r].activity_id,
-                action: resultSet[r].action
+                action: resultSet[r].action,
+                detail: resultSet[r].detail
             };
 
             transaction.run(cypher, cypherParams).then(function(resolve) {
