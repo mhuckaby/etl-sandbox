@@ -63,6 +63,6 @@ var initializeData = function() {
         });
     };
 
-    return deferred.promise;
+    return deferred.promise.timeout(20000);
 };
 exports.initializeData = initializeData;
