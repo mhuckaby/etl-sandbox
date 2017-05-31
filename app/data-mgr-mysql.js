@@ -65,7 +65,7 @@ var ddlAndData = function (connection) {
 
     var promises = [];
     for(index in ddl) {
-        if(ddl[index]) {
+        if(ddl[index] && ddl[index].trim().charAt(0) !== '#') {
             promises.push( execute(connection, ddl[index]) );
         }else {
            continue;
