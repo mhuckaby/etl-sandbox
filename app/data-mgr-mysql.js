@@ -1,6 +1,7 @@
 var logger = require('fancy-log');
 var mysql = require('mysql');
 var Q = require('q');
+var dataFileMgr = require('./data-file-mgr');
 
 
 exports.populate = function() {
@@ -17,7 +18,7 @@ exports.populate = function() {
         deferred.reject(reject);
     });
 
-    return deferred.promise;
+    return deferred.promise.timeout(10000);
 };
 
 var getMySqlConnection = function() {
@@ -49,11 +50,11 @@ var ddlAndData = function (connection) {
 
         connection.query(statement, function (error) {
             if (error) {
-                deferred.reject('mysql data init error: ' + error);
+                deferred.reject(`mysql data init error: ${error}`);
                 throw error;
             }
-            logger('executed: ' + statement);
-            deferredExecution.resolve('executed: ' + statement);
+            logger(`executed: ${statement}`);
+            deferredExecution.resolve(`executed: ${statement}`);
         });
 
         return deferredExecution.promise;
@@ -109,3 +110,30 @@ var ddlAndData = function (connection) {
 
     return deferred.promise;
 };
+
+exports.getActivityData = function() {
+    var deferred = Q.defer();
+    logger('getActivityData');
+
+    getMySqlConnection().then(function(connection) {
+
+        var statement = dataFileMgr.readSqlFile('get-activity-data');
+
+        connection.query(statement, function (error, rows) {
+            if (error) {
+                deferred.reject(`activity query error: ${error}`);
+                throw error;
+            }
+
+            logger(`executed: ${statement}, rows: ${rows.length}`);
+
+            deferred.resolve(rows);
+
+            connection.end();
+        });
+
+    });
+
+    return deferred.promise;
+};
+

@@ -1,7 +1,7 @@
 var path = require('path');
 var express = require('express');
 var app = express();
-var populateDataService = require('./populate-data-svc');
+var populateDataService = require('./data-populate-svc');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
