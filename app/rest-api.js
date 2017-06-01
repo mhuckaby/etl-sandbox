@@ -3,16 +3,46 @@ var path = require('path');
 var express = require('express');
 var app = express();
 var populateDataService = require('./data-populate-svc');
+var socketCheck = require('./socket-check');
+var Q = require('q');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+var serviceStatus = {
+    mySql: "not-available",
+    neo4j: "not-available",
+    elastic: "not-available"
+};
+
+
+const statusCheck = () => {
+
+    return [
+        socketCheck.tryHost('mysql', 3306, 5).then(function() {
+            serviceStatus.mySql = "available";
+        }),
+
+        socketCheck.tryHost('neo4j', 7473, 5).then(function() {
+            serviceStatus.neo4j = "available";
+        }),
+
+        socketCheck.tryHost('elasticsearch', 7473, 5).then(function() {
+            serviceStatus.elastic = "available";
+        })
+    ];
+};
 
 app.get('/', function (req, res) {
-    res.render('index', {
-        title: 'ETLS',
-        host_rewrite: req.query.host_rewrite ? req.query.host_rewrite : 'localhost'
+    var scPromises = statusCheck();
+    Q.allSettled(scPromises).then(function() {
+        res.render('index', {
+            title: 'ETLS',
+            status: serviceStatus,
+            host_rewrite: req.query.host_rewrite ? req.query.host_rewrite : 'localhost'
+        });
     });
+
 });
 
 app.get('/data/init', function(req, res, next) {

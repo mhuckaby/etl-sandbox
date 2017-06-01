@@ -6,6 +6,7 @@
 <body>
     <h1><%= title %></h1>
     <h3>?host_rewrite=<%= host_rewrite %></h3>
+    <pre><%= JSON.stringify(status, null, 2) %></pre>
     <div>
         <a href="/data/init">initialize sample data (drops mysql and neo4j data)</a>
     </div>
