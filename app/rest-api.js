@@ -19,15 +19,15 @@ var serviceStatus = {
 const statusCheck = () => {
 
     return [
-        socketCheck.tryHost('mysql', 3306, 5).then(function() {
+        socketCheck.tryHost('mysql', 3306, 2).then(function() {
             serviceStatus.mySql = "available";
         }),
 
-        socketCheck.tryHost('neo4j', 7473, 5).then(function() {
+        socketCheck.tryHost('neo4j', 7473, 2).then(function() {
             serviceStatus.neo4j = "available";
         }),
 
-        socketCheck.tryHost('elasticsearch', 7473, 5).then(function() {
+        socketCheck.tryHost('elasticsearch', 9200, 2).then(function() {
             serviceStatus.elastic = "available";
         })
     ];
