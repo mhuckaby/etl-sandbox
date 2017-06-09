@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+
+DOCKER_TAG=$1
+
+cat  << EOF
 version: "3"
 services:
   elasticsearch:
@@ -49,7 +54,7 @@ services:
          MYSQL_USER: etls_user
          MYSQL_PASSWORD: password
   etls:
-      image: mhuckaby/etls:0.0.13
+      image: mhuckaby/etls:$DOCKER_TAG
       ports:
         - "3000:3000"
       depends_on:
@@ -61,3 +66,4 @@ services:
           constraints: [node.role == manager]
 networks:
   webnet:
+EOF
