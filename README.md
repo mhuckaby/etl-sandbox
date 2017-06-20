@@ -49,3 +49,7 @@ Once the containers have started, you will have the following services available
 - MySql database `etls`
 - MySql database user `etls_user`
 - MySql database user password `password`
+
+## Quickstart
+
+- Use make
